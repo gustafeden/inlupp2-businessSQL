@@ -131,7 +131,7 @@ void loop()
 
 
 
-	if (currentMillis - lastButtonCheckMillis > 30 && currentMillis - lastSentMillis > 1000) {
+	if (!buttonPressed && currentMillis - lastButtonCheckMillis > 30) {
 		lastButtonCheckMillis = currentMillis;
 		if (digitalRead(BUTTON_PIN) == HIGH)
 			buttonPressed = true;
@@ -148,7 +148,6 @@ void loop()
 	}
 	else if (!sendMsg && currentMillis - lastCheckedMillis > check_interval && currentMillis - lastSentMillis < send_interval) {
 		lastCheckedMillis = currentMillis;
-		//Serial.print("checking temps: ");
 		float temptemp = dhtSensor.readTemp();
 		Serial.println(temptemp);
 		sendMsg = temptemp > TEMPERATURE_MAX || temptemp < TEMPERATURE_MIN ? true : false;
